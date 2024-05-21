@@ -1,27 +1,16 @@
-
-
 import { Box, Button, useTheme } from '@mui/material';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { tokens } from '../../theme';
-import Header from '../../components/Header';
-import { DataGrid } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
 import { Delete, Edit } from '@mui/icons-material';
 import { blue, pink } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
+import { DataGrid } from '@mui/x-data-grid';
+import Header from '../../components/Header';
 
-const Property = () => {
-    const [adminProperties, setAdminProperties] = useState([]);
-
+const Users = () => {
+    const[users,setUsers] = useState([])
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
-    useEffect(() => {
-
-        fetch(`https://rental-property-mobile-apps.vercel.app/api/v1/properties/admin`)
-            .then(res => res.json())
-            .then(data => setAdminProperties(data.properties));
-
-    }, []);
 
     const deleteProductHandler = () => {
         alert("Deleted");
@@ -36,21 +25,16 @@ const Property = () => {
         }
         return retVal;
     }
+
     const columns = [
         { field: "_id", headerName: "ID" },
         {
-            field: "title",
-            headerName: "Title",
+            field: "name",
+            headerName: "Name",
             flex: 1,
             cellClassName: "name-column--cell",
         },
-        {
-            field: "rentPrice",
-            headerName: "Rent Price",
-            type: "number",
-            headerAlign: "left",
-            align: "left",
-        },
+       
         {
             field: "phoneNumber",
             headerName: "Phone Number",
@@ -59,6 +43,11 @@ const Property = () => {
         {
             field: "location",
             headerName: "Location",
+            flex: 1,
+        },
+        {
+            field: "role",
+            headerName: "Role",
             flex: 1,
         },
 
@@ -73,13 +62,13 @@ const Property = () => {
                 return (
                     <Fragment>
                         <Link to="/">
-                            <Edit sx={{ color: blue[500] }}/>
+                            <Edit sx={{ color: blue[500] }} />
                         </Link>
 
                         <Button
                             onClick={() => deleteProductHandler()}
                         >
-                            <Delete sx={{ color: pink[500] }}/>
+                            <Delete sx={{ color: pink[500] }} />
                         </Button>
                     </Fragment>
                 );
@@ -87,13 +76,13 @@ const Property = () => {
         },
 
     ];
+
     return (
         <Box m="20px">
-            <Header title="ALL-PROPERTIES" subtitle="Managing the properties" />
+            <Header title="ALL-USERS" subtitle="Managing the users" />
             <Box
                 m="40px 0 0 0"
                 height="75vh"
-
                 sx={{
                     "& .MuiDataGrid-root": {
                         border: "none",
@@ -120,12 +109,12 @@ const Property = () => {
                     },
                 }}
             >
-                <DataGrid checkboxSelection rows={adminProperties} columns={columns}
+                <DataGrid checkboxSelection rows={users} columns={columns}
                     getRowId={(row) => generateRandom()}
-                    row={adminProperties} />
+                    row={users} />
             </Box>
         </Box>
     );
 };
 
-export default Property;
+export default Users;
