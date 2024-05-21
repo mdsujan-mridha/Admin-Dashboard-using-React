@@ -12,10 +12,19 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://rental-property-mobile-apps.vercel.app/api/v1/properties`)
+      .then(res => res.json())
+      .then(data => setProperties(data.properties))
+
+  }, [])
 
   return (
     <Box m="20px">
@@ -183,9 +192,11 @@ const Dashboard = () => {
               Recent Properties Add
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, i) => (
+          {
+          properties &&
+          properties.map((property, i) => (
             <Box
-              key={`${transaction.txId}-${i}`}
+              key={`${property._id}-${i}`}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
@@ -198,19 +209,19 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  {transaction.txId}
+                  {property._id}
                 </Typography>
                 <Typography color={colors.grey[100]}>
-                  {transaction.user}
+                  {property._id}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
+              <Box color={colors.grey[100]}>{property.date}</Box>
               <Box
                 backgroundColor={colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                ${property.rentPrice}
               </Box>
             </Box>
           ))}
