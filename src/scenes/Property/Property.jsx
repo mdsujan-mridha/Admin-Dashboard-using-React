@@ -23,10 +23,29 @@ const Property = () => {
 
     }, []);
 
-    const deleteProductHandler = () => {
-        alert("Deleted");
+    const deleteProductHandler = (id) => {
+        try {
 
+            fetch(`https://rental-property-mobile-apps.vercel.app/api/v1/property/${id}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.reload();
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                })
+
+        } catch (error) {
+            alert("Error When try to delete Property", error)
+
+        }
     }
+
     function generateRandom() {
         var length = 8,
             charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
@@ -73,13 +92,13 @@ const Property = () => {
                 return (
                     <Fragment>
                         <Link to="/">
-                            <Edit sx={{ color: blue[500] }}/>
+                            <Edit sx={{ color: blue[500] }} />
                         </Link>
 
                         <Button
-                            onClick={() => deleteProductHandler()}
+                            onClick={() => deleteProductHandler(params.row._id)}
                         >
-                            <Delete sx={{ color: pink[500] }}/>
+                            <Delete sx={{ color: pink[500] }} />
                         </Button>
                     </Fragment>
                 );
