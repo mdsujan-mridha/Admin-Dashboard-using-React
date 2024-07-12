@@ -27,7 +27,8 @@ const Users = () => {
 
         fetch(`https://rental-property-mobile-apps.vercel.app/api/v1/admin/users`)
             .then(res => res.json())
-            .then(data => setUsers(data.users))
+            .then(data => setUsers(data.users));
+            
 
     }, []);
 
